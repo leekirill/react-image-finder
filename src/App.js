@@ -1,7 +1,8 @@
 import { Component } from "react";
-import "./App.css";
-import ImageGallery from "./ImageGallery/ImageGallery";
-import Searchbar from "./Searchbar/Searchbar";
+import "./App.scss";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
+import Searchbar from "./components/Searchbar/Searchbar";
+import Modal from "./components/Modal/Modal";
 
 class App extends Component {
   constructor() {
