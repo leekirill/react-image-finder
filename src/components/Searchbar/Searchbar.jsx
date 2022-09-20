@@ -1,6 +1,9 @@
 import { Component } from "react";
 import s from "../Searchbar/Searchbar.module.scss"
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+
 
 export default class Searchbar extends Component {
 
@@ -16,6 +19,7 @@ export default class Searchbar extends Component {
     handleSubmit = e => {
         e.preventDefault()
         this.props.onSubmit(this.state.request)
+        
     }
 
     render() {
@@ -23,7 +27,7 @@ export default class Searchbar extends Component {
             <header className={s.Searchbar}>
                 <form className={s.SearchForm} onSubmit={this.handleSubmit}>
                     <button type="submit" className={s.SearchFormButton}>
-                    <span className={s.SearchFormButtonLabel}>Search</span>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
 
                     <input

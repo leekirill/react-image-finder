@@ -4,47 +4,87 @@ import Button from "../Button/Button";
 import picsAPI from '../../services/pics-api'
 import Modal from '../Modal/Modal'
 import s from '../ImageGallery/ImageGallery.module.scss'
-import { nanoid } from 'nanoid'
 import { TailSpin } from 'react-loader-spinner'
 
 export default class ImageGallery extends Component {
 
-    state = {
-        pics: null,
-        loading: false,
-        modal: false,
-        picture: ''
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.request !== this.props.request) {
-            const request = this.props.request
-
-            this.setState({loading: true})
-
-            picsAPI.fetchPics(request).then(r => r.json()).then(pics => this.setState({ pics: pics.hits, loading: false}))
+    constructor() {
+        super()
+        
+        this.state = {
+            pics: [],
+            loading: false,
+            modal: false,
+            pictureSrc: '',
+            page: 1
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const request = this.props.request
+        const page = this.state.page
+        
+
+        if (prevProps.request !== request || prevState.page !== page) {
+
+            this.setState({loading: true})
+
+            picsAPI
+                .fetchPics(request, page)
+                .then(r => {
+                    if (r.ok) {
+                        return r.json()
+                    }
+                    return Promise.reject(
+                        new Error(`Капец, ошибка`)
+                    )
+                })
+                .then(pics => this.setState(prevState =>
+                ({ pics: [...prevState.pics, ...pics.hits], loading: false})))
+                .finally(console.log(123))
+            
+            prevState.page === page && this.setState({ pics: [] })
+        } 
+    }
+ 
     handleClick = (e) => {
-        this.setState({
+        this.setState({ 
             modal: !this.state.modal,
-            picture: e.target.src
+            pictureSrc: e.target.src,
         })
-        console.log(e)
+    }
+
+    closeModalOnClickByOverlay = (e) => {
+        if (e.currentTarget === e.target) {
+            this.setState({
+                modal: !this.state.modal,
+            })
+        }
+    }
+
+    loadMore = () => {
+        this.setState(prevState => ({
+            page: prevState.page + 1,
+        }))
+        setTimeout(() => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+            })
+        }, 500)
     }
 
     render() {
         return (
             <React.Fragment>
-                {this.state.loading && <TailSpin color="#1c1c1c" width="50px" height="50px"/>}
+                {this.state.loading && <TailSpin color="#3f51b5" width="50px" height="50px"/>}
                 <ul className={s.ImageGallery}>
-                    {this.state.pics !== null ?
-                        this.state.pics.map((pics) => <ImageGalleryItem pics={pics} key={nanoid(5)} onClick={this.handleClick}/> )
-                        : ''}
+                    {this.state.pics &&
+                        this.state.pics.map((pics) => <ImageGalleryItem pics={pics} key={pics.id} onClick={this.handleClick}/> )}
                 </ul>
-                {this.state.pics !== null ? <Button /> : ''}
-                {this.state.modal && <Modal pic={this.state.picture} closeModal={this.handleClick} />}
+                {this.state.pics.length !== 0 ? <Button onClick={this.loadMore} /> : ''}
+                {this.state.modal && <Modal pic={this.state.pictureSrc} closeModal={this.closeModalOnClickByOverlay} />}
             </React.Fragment>
         )
     }
