@@ -3,6 +3,8 @@ import s from "../Searchbar/Searchbar.module.scss"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default class Searchbar extends Component {
@@ -18,9 +20,16 @@ export default class Searchbar extends Component {
     }
     handleSubmit = e => {
         e.preventDefault()
+        if (this.state.request === '') {
+            toast.error("Please fill in this field");
+        }
+        this.setState({
+            request: ''
+        })
         this.props.onSubmit(this.state.request)
-        
     }
+
+    
 
     render() {
         return (
@@ -41,7 +50,9 @@ export default class Searchbar extends Component {
                         
                     />
                 </form>
+                <ToastContainer />
             </header>
+            
         )
     }
 }
