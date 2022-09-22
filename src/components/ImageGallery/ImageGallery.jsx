@@ -18,10 +18,10 @@ export default class ImageGallery extends Component {
             )
         }
         if (this.props.status === 'rejected') {
-            return <h1 className={s.heading}>Ошибка</h1>
+            return <h2 className={s.heading}>Ошибка</h2>
         }
         if (this.props.pics.length === 0) {
-            return <h1 className={s.heading}>{this.props.request} не найдено :(</h1>
+            return <h2 className={s.heading}>{this.props.request} не найдено :(</h2>
         }
         if (this.props.status === 'resolved')
             return (  

@@ -29,13 +29,11 @@ class App extends Component {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: "smooth",
-        lerp: 2,
       });
     }
 
     if (prevState.request !== request) {
       this.getImages();
-
       // если страница не меняется, то обнуляем массив с картинками
       prevState.page === page && this.setState({ pics: [] });
     }
@@ -61,6 +59,8 @@ class App extends Component {
       })
       .catch((error) => this.setState({ error, status: "rejected" }))
       .finally(() => this.setState({ loading: false }));
+
+    console.log(document.documentElement.scrollWidth);
   }
 
   handleClick = (e) => {
@@ -92,7 +92,7 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.loading && (
-          <TailSpin color="#3f51b5" width="50px" height="50px" />
+          <TailSpin color="#ff5959" width="50px" height="50px" />
         )}
         <Searchbar onSubmit={this.getRequest} />
         <ImageGallery

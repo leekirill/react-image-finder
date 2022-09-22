@@ -17,7 +17,9 @@
     .heading, p {
         text-align: center
     }
-
+    .heading {
+        color: #ff5959
+    }
     p {
         color: rgb(111, 111, 111);
         line-height: 1.5;
@@ -28,4 +30,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.heading {
+    text-align: center
 }
