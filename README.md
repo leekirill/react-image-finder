@@ -69,5 +69,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=leekirill)](https://github.com/anuraghazra/github-readme-stats)
-
+[![GitHub Streak](https://streak-stats.demolab.com?user=leekirill&hide_border=true)](https://git.io/streak-stats)
